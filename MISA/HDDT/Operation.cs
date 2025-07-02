@@ -10,6 +10,7 @@ namespace eInvoiceConnect.MISA.HDDT
     {
         string baseUrl { get; set; }
         string TokenUrl() { return baseUrl + "/auth/token"; }
+        string ToaHoaDonUrl() { return baseUrl + "/invoice/create"; }   
 
         TokenResponse Token { get; set; }
         public void GetToken()
