@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -990,5 +994,62 @@ namespace eInvoiceConnect.MISA.HDDT
         /// </summary>
         public string ReceiverEmail { get; set; }
         #endregion
+        public string ToJson()
+        {
+            var serializer = new DataContractJsonSerializer(typeof(AccountInfo));
+            using (var ms = new MemoryStream())
+            {
+                serializer.WriteObject(ms, this);
+                return Encoding.UTF8.GetString(ms.ToArray());
+            }
+        }
+        public InvoiceApiResponse PostInvoicesAsync(
+        string token,
+        int signType,
+        List<eInvoiceConnect.MISA.HDDT.InvoiceData> invoiceDataList)
+        {
+            var url = "https://testapi.meinvoice.vn/api/integration/invoice";
+            var requestObj = new InvoiceApiRequest
+            {
+                SignType = signType,
+                InvoiceData = invoiceDataList
+            };
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            request.Method = "POST";
+            request.ContentType = "application/json";
+
+            var json=this.ToJson();
+            using (var streamWriter = new StreamWriter(request.GetRequestStream()))
+            {
+                streamWriter.Write(json);
+                streamWriter.Flush();
+            }
+
+            using (var response = (HttpWebResponse)request.GetResponse())
+            using (var streamReader = new StreamReader(response.GetResponseStream()))
+            {
+                var result = streamReader.ReadToEnd();
+                var serializer = new DataContractJsonSerializer(typeof(TokenResponse));
+                using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(result)))
+                {
+                    return (InvoiceApiResponse)serializer.ReadObject(ms);
+                }
+            }
+        }
+
+    }
+    public class InvoiceApiRequest
+    {
+        public int SignType { get; set; }
+        public List<eInvoiceConnect.MISA.HDDT.InvoiceData> InvoiceData { get; set; }
+    }
+    public class InvoiceApiResponse
+    {
+        public bool success { get; set; }
+        public string errorCode { get; set; }
+        public string descriptionErrorCode { get; set; }
+        public object createInvoiceResult { get; set; }
+        public object publishInvoiceResult { get; set; }
     }
 }

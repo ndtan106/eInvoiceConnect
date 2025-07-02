@@ -17,7 +17,15 @@ namespace eInvoiceConnect.MISA.HDDT
             AccountInfo accountInfo = new AccountInfo();
             Token=accountInfo.GetToken(TokenUrl());
         }
-
+        public void TaoHoaDon()
+        {
+            GetToken();
+            if (Token != null)
+            {
+                
+            }
+            
+        }
 
 
     }
