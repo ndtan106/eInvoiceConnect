@@ -46,7 +46,16 @@ namespace eInvoiceConnect.MISA.HDDT
                 // Implement sending logic here
             }
         }
-
+        public List<eInvoiceConnect.MISA.HDDT.InvoiceData> GetInvoiceList(string fromDate, string toDate)
+        {
+            GetToken();
+            if (Token != null)
+            {
+                // Implement logic to get invoice list here
+                return new List<eInvoiceConnect.MISA.HDDT.InvoiceData>();
+            }
+            return null;
+        }
 
     }
 }
