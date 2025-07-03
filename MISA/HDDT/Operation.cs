@@ -29,6 +29,14 @@ namespace eInvoiceConnect.MISA.HDDT
             }
             
         }
+        public void KyHoaDon()
+        {
+            GetToken();
+            if (Token != null)
+            {
+                // Implement signing logic here
+            }
+        }
 
 
     }
