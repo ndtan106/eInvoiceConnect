@@ -38,6 +38,15 @@ namespace eInvoiceConnect.MISA.HDDT
             }
         }
 
+        public void TaoVaKyHoaDon()
+        {
+            GetToken();
+            if (Token != null)
+            {
+                // Implement sending logic here
+            }
+        }
+
 
     }
 }
