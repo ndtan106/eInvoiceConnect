@@ -8,6 +8,6 @@ namespace eInvoiceConnect.MISA.HDDT
 {
     public class Path
     {
-
+        string BasePath { get; set; } = "";
     }
 }
