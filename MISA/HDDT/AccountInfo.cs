@@ -47,6 +47,9 @@ namespace eInvoiceConnect.MISA.HDDT
                     return (TokenResponse)serializer.ReadObject(ms);
                 }
             }
+
+
+
         }
     }
     public class TokenResponse
